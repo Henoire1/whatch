@@ -1,56 +1,206 @@
 <script setup lang="ts">
-interface Watch {
-  id: number
-  name: string
-  collection: string
-  price: string
-  image: string
-}
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'; // Import useRouter
+import { formatPrice } from '../utils/formatters';
+import { Watch } from '../types/watch'; // Import Watch interface
+import WatchCard from './shared/WatchCard.vue'; // Import WatchCard component
+
+// const emit = defineEmits(['view-details']) // L'événement n'est plus émis directement, mais géré par le routeur
+
+const router = useRouter(); // Initialise le routeur
 
 const watches: Watch[] = [
   {
     id: 1,
-    name: 'Classique Élégance',
-    collection: 'Heritage',
-    price: '12 500 €',
-    image: 'https://images.pexels.com/photos/277390/pexels-photo-277390.jpeg?auto=compress&cs=tinysrgb&w=800'
+    name: 'Casio Carrée Noire Or',
+    collection: 'Classic Square',
+    category: 'Classique',
+    brand: 'Casio',
+    price: 12000,
+    image: '/images/watches/montreC1.jpeg',
+    isNew: true
   },
   {
     id: 2,
-    name: 'Sport Chronographe',
-    collection: 'Performance',
-    price: '18 900 €',
-    image: 'https://images.pexels.com/photos/1697214/pexels-photo-1697214.jpeg?auto=compress&cs=tinysrgb&w=800'
+    name: 'Casio Carrée Bleue Or Rose',
+    collection: 'Classic Square',
+    category: 'Classique',
+    brand: 'Casio',
+    price: 10000,
+    image: '/images/watches/montresC2.jpeg',
+    isPromo: false,
+    isNew: true
   },
   {
     id: 3,
-    name: 'Or Royal',
-    collection: 'Prestige',
-    price: '45 000 €',
-    image: 'https://images.pexels.com/photos/125779/pexels-photo-125779.jpeg?auto=compress&cs=tinysrgb&w=800'
+    name: 'Casio Carrée Noire Or',
+    collection: 'Classic Square',
+    category: 'Classique',
+    brand: 'Casio',
+    price: 12000,
+    isNew: true,
+    image: '/images/watches/montresC3.jpeg'
   },
   {
     id: 4,
-    name: 'Diamant Étoile',
-    collection: 'Haute Joaillerie',
-    price: '89 500 €',
-    image: 'https://images.pexels.com/photos/1697214/pexels-photo-1697214.jpeg?auto=compress&cs=tinysrgb&w=800'
+    name: 'Casio Carrée Dorée',
+    collection: 'Classic Square',
+    category: 'Classique',
+    brand: 'Casio',
+    price: 12000,
+    image: '/images/watches/montresC4.jpeg',
+    isNew: true
   },
   {
     id: 5,
-    name: 'Automatique Marine',
-    collection: 'Nautique',
-    price: '15 200 €',
-    image: 'https://images.pexels.com/photos/280250/pexels-photo-280250.jpeg?auto=compress&cs=tinysrgb&w=800'
+    name: 'Casio Carrée Noire',
+    collection: 'Classic Square',
+    category: 'Classique',
+    brand: 'Casio',
+    price: 12000,
+    image: '/images/watches/montresC5.jpeg'
   },
   {
     id: 6,
-    name: 'Tourbillon Master',
-    collection: 'Complications',
-    price: '125 000 €',
-    image: 'https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?auto=compress&cs=tinysrgb&w=800'
+    name: 'Casio Carrée Bleue Or',
+    collection: 'Classic Square',
+    category: 'Classique',
+    brand: 'Casio',
+    price: 12000,
+    image: '/images/watches/montresC6.jpeg',
+    isPromo: false
+  },
+  {
+    id: 7,
+    name: 'Casio Carrée Argentée',
+    collection: 'Classic Square',
+    category: 'Classique',
+    brand: 'Casio',
+    price: 12000,
+    image: '/images/watches/montresC7.jpeg'
+  },
+  {
+    id: 8,
+    name: 'Casio Carrée Bleue Argentée',
+    collection: 'Classic Square',
+    category: 'Classique',
+    brand: 'Casio',
+    price: 12000,
+    image: '/images/watches/montresC8.jpeg'
+  },
+  {
+    id: 9,
+    name: 'Casio Ronde Grise',
+    collection: 'Classic Round',
+    category: 'Classique',
+    brand: 'Casio',
+    price: 12000,
+    image: '/images/watches/montres1.jpeg',
+    isNew: true
+  },
+  {
+    id: 10,
+    name: 'Casio Ronde Verte',
+    collection: 'Classic Round',
+    category: 'Classique',
+    brand: 'Casio',
+    price: 12000,
+    image: '/images/watches/montres2.jpeg'
+  },
+  {
+    id: 11,
+    name: 'Casio Ronde Bleu Clair',
+    collection: 'Classic Round',
+    category: 'Classique',
+    brand: 'Casio',
+    price: 12000,
+    image: '/images/watches/montres3.jpeg'
+  },
+  {
+    id: 12,
+    name: 'Casio Ronde Bleue',
+    collection: 'Classic Round',
+    category: 'Classique',
+    brand: 'Casio',
+    price: 12000,
+    image: '/images/watches/montres4.jpeg'
   }
 ]
+
+const searchTerm = ref('')
+const selectedCategory = ref<Watch['category'] | 'All'>('All')
+const selectedPriceRange = ref<string>('All') // e.g., '0-10000', '10000-25000', '25000+'
+
+const initialWatchesToShow = 6
+const watchesPerLoad = 4
+const visibleWatchesCount = ref(initialWatchesToShow)
+
+const availableCategories = computed(() => {
+  const categories = new Set(watches.map(watch => watch.category))
+  return ['All', ...Array.from(categories)]
+})
+
+const availablePriceRanges = ref([
+  { label: 'Toutes les gammes', value: 'All' },
+ 
+])
+
+const filteredWatches = computed(() => {
+  let result = watches
+
+  // Filter by search term
+  if (searchTerm.value) {
+    const lowerCaseSearchTerm = searchTerm.value.toLowerCase()
+    result = result.filter(
+      watch =>
+        watch.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+        watch.collection.toLowerCase().includes(lowerCaseSearchTerm) ||
+        watch.brand.toLowerCase().includes(lowerCaseSearchTerm)
+    )
+  }
+
+  // Filter by category
+  if (selectedCategory.value !== 'All') {
+    result = result.filter(watch => watch.category === selectedCategory.value)
+  }
+
+  // Filter by price range
+  if (selectedPriceRange.value !== 'All') {
+    const [minStr, maxStr] = selectedPriceRange.value.split('-')
+    const min = parseInt(minStr)
+    const max = maxStr ? parseInt(maxStr) : Infinity
+
+    result = result.filter(watch => watch.price >= min && watch.price <= max)
+  }
+
+  return result
+})
+
+const displayedWatches = computed(() => {
+  return filteredWatches.value.slice(0, visibleWatchesCount.value)
+})
+
+const hasMoreWatches = computed(() => {
+  return filteredWatches.value.length > visibleWatchesCount.value
+})
+
+const loadMoreWatches = () => {
+  visibleWatchesCount.value += watchesPerLoad
+}
+
+const selectCategory = (category: Watch['category'] | 'All') => {
+  selectedCategory.value = category
+  visibleWatchesCount.value = initialWatchesToShow // Réinitialise le compteur lors du changement de filtre
+}
+
+const selectPriceRange = (range: string) => {
+  selectedPriceRange.value = range
+  visibleWatchesCount.value = initialWatchesToShow // Réinitialise le compteur lors du changement de filtre
+}
+
+const handleViewDetailsClick = (watchId: number) => {
+  router.push({ name: 'ProductDetail', params: { id: watchId.toString() } }); // Navigue vers la page de détails du produit
+}
 </script>
 
 <template>
@@ -61,20 +211,45 @@ const watches: Watch[] = [
         <p class="section-subtitle">Des garde-temps d'exception pour les connaisseurs</p>
       </div>
 
+      <div class="filters-container">
+        <input
+          type="text"
+          v-model="searchTerm"
+          placeholder="Rechercher une montre..."
+          class="search-input"
+        />
+        <div class="category-filters">
+          <button
+            v-for="category in availableCategories"
+            :key="category"
+            @click="selectCategory(category as Watch['category'] | 'All')"
+            :class="['filter-button', { 'active': selectedCategory === category }]"
+          >
+            {{ category === 'All' ? 'Toutes' : category }}
+          </button>
+        </div>
+        <div class="price-filters">
+          <select v-model="selectedPriceRange" @change="selectPriceRange(selectedPriceRange)" class="price-select">
+            <option v-for="range in availablePriceRanges" :key="range.value" :value="range.value">
+              {{ range.label }}
+            </option>
+          </select>
+        </div>
+      </div>
+
       <div class="watches-grid">
-        <article v-for="watch in watches" :key="watch.id" class="watch-card">
-          <div class="watch-image">
-            <img :src="watch.image" :alt="watch.name" />
-            <div class="watch-overlay">
-              <button class="view-details">Voir les détails</button>
-            </div>
-          </div>
-          <div class="watch-info">
-            <span class="watch-collection">{{ watch.collection }}</span>
-            <h3 class="watch-name">{{ watch.name }}</h3>
-            <p class="watch-price">{{ watch.price }}</p>
-          </div>
-        </article>
+        <WatchCard
+          v-for="watch in displayedWatches"
+          :key="watch.id"
+          :watch="watch"
+          @view-details="handleViewDetailsClick"
+        />
+      </div>
+      <div v-if="filteredWatches.length === 0" class="no-results">
+        Aucune montre trouvée pour votre sélection.
+      </div>
+      <div v-if="hasMoreWatches" class="load-more-container">
+        <button @click="loadMoreWatches" class="load-more-button">Charger plus</button>
       </div>
     </div>
   </section>
@@ -108,101 +283,110 @@ const watches: Watch[] = [
   color: var(--color-text-light);
 }
 
+.filters-container {
+  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(201, 169, 98, 0.2);
+}
+
+.category-filters, .price-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.filter-button {
+  background: #f0f0f0;
+  color: var(--color-text);
+  border: 1px solid #e0e0e0;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-button:hover {
+  background: #e0e0e0;
+  border-color: var(--color-accent);
+}
+
+.filter-button.active {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.price-select {
+  padding: 0.75rem 1.25rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: white;
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.price-select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(201, 169, 98, 0.2);
+}
+
 .watches-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2.5rem;
 }
 
-.watch-card {
-  background: white;
-  border-radius: 4px;
-  overflow: hidden;
-  transition: all 0.4s ease;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+.no-results {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--color-text-light);
+  margin-top: 3rem;
 }
 
-.watch-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+.load-more-container {
+  text-align: center;
+  margin-top: 3rem;
 }
 
-.watch-image {
-  position: relative;
-  height: 350px;
-  overflow: hidden;
-}
-
-.watch-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.watch-card:hover .watch-image img {
-  transform: scale(1.1);
-}
-
-.watch-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.watch-card:hover .watch-overlay {
-  opacity: 1;
-}
-
-.view-details {
-  background: white;
-  color: var(--color-primary);
-  border: none;
-  padding: 0.875rem 2rem;
-  font-size: 0.95rem;
-  font-weight: 600;
-  border-radius: 2px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
-}
-
-.view-details:hover {
-  background: var(--color-accent);
+.load-more-button {
+  background: var(--color-primary);
   color: white;
-  transform: scale(1.05);
-}
-
-.watch-info {
-  padding: 1.75rem;
-}
-
-.watch-collection {
-  display: block;
-  font-size: 0.85rem;
-  color: var(--color-accent);
+  border: none;
+  padding: 1rem 2.5rem;
+  font-size: 1rem;
   font-weight: 600;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-bottom: 0.5rem;
 }
 
-.watch-name {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--color-primary);
-  margin-bottom: 0.75rem;
-}
-
-.watch-price {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--color-text);
+.load-more-button:hover {
+  background: var(--color-accent);
+  transform: translateY(-2px);
 }
 
 @media (max-width: 640px) {
@@ -219,8 +403,13 @@ const watches: Watch[] = [
     gap: 2rem;
   }
 
-  .watch-image {
-    height: 280px;
+  .filters-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .search-input {
+    max-width: 100%;
   }
 }
 </style>

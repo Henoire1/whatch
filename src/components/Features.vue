@@ -23,8 +23,8 @@ const features: Feature[] = [
   },
   {
     icon: '🌍',
-    title: 'Livraison Mondiale',
-    description: 'Vos montres sont livrées dans le monde entier dans un écrin de luxe sécurisé.'
+    title: 'Livraison a Abidjan',
+    description: 'Vos montres sont livrées partout a BABI , oui BABI vous aviez bien lu.'
   }
 ]
 </script>

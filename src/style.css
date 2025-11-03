@@ -3,13 +3,13 @@
 :root {
   --color-primary: #1a1a1a;
   --color-secondary: #2d2d2d;
-  --color-accent: #c9a962;
+  --color-accent: #c9a962; /* Or */
   --color-text: #333333;
   --color-text-light: #666666;
   --color-background: #ffffff;
   --color-background-alt: #f8f8f8;
 
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', sans-serif;
+  font-family: 'Wix Madefor Text', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', sans-serif;
   line-height: 1.6;
   font-weight: 400;
 
@@ -29,6 +29,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif; /* Police serif pour les titres */
   line-height: 1.2;
   font-weight: 600;
 }
