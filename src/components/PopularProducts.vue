@@ -15,7 +15,7 @@ const popularWatches: Watch[] = [
     collection: 'Classic Square',
     category: 'Classique',
     brand: 'Casio',
-    price: 15000,
+    price: 12000,
     image: '/images/watches/montreC1.jpeg'
   },
   {
@@ -24,7 +24,7 @@ const popularWatches: Watch[] = [
     collection: 'Classic Square',
     category: 'Classique',
     brand: 'Casio',
-    price: 16000,
+    price: 12000,
     image: '/images/watches/montresC2.jpeg'
   },
   {
@@ -42,7 +42,7 @@ const popularWatches: Watch[] = [
     collection: 'Classic Round',
     category: 'Classique',
     brand: 'Casio',
-    price: 12500,
+    price: 12000,
     image: '/images/watches/montres2.jpeg'
   }
 ]
