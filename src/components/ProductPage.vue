@@ -46,7 +46,7 @@ const allProducts: Product[] = [
     id: 1,
     name: 'Casio Carrée Noire Or',
     description: 'Une montre Casio classique avec un cadran noir et un boîtier doré, offrant une élégance intemporelle et une fiabilité reconnue.',
-    basePrice: 15000,
+    basePrice: 12000,
     images: [
       '/images/watches/montreC1.jpeg',
       '/images/watches/montreC1.jpeg',
@@ -69,7 +69,7 @@ const allProducts: Product[] = [
     id: 2,
     name: 'Casio Carrée Bleue Or Rose',
     description: 'Un design moderne avec un cadran bleu profond et un boîtier en or rose, parfait pour un style distinctif.',
-    basePrice: 16000,
+    basePrice: 10000,
     images: [
       '/images/watches/montresC2.jpeg',
       '/images/watches/montresC2.jpeg',
@@ -92,7 +92,7 @@ const allProducts: Product[] = [
     id: 3,
     name: 'Casio Carrée Noire Or',
     description: 'Élégance et simplicité définissent cette montre Casio avec un cadran noir et des accents dorés.',
-    basePrice: 15500,
+    basePrice: 12000,
     images: [
       '/images/watches/montresC3.jpeg',
       '/images/watches/montresC3.jpeg',
@@ -115,7 +115,7 @@ const allProducts: Product[] = [
     id: 4,
     name: 'Casio Carrée Dorée',
     description: 'Une montre entièrement dorée pour un look audacieux et luxueux, parfaite pour se démarquer.',
-    basePrice: 17000,
+    basePrice: 12000,
     images: [
       '/images/watches/montresC4.jpeg',
       '/images/watches/montresC4.jpeg',
@@ -138,7 +138,7 @@ const allProducts: Product[] = [
     id: 5,
     name: 'Casio Carrée Noire',
     description: 'Minimaliste et chic, cette montre noire offre une touche de modernité à votre poignet.',
-    basePrice: 14500,
+    basePrice: 12000,
     images: [
       '/images/watches/montresC5.jpeg',
       '/images/watches/montresC5.jpeg',
@@ -161,7 +161,7 @@ const allProducts: Product[] = [
     id: 6,
     name: 'Casio Carrée Bleue Or',
     description: 'Un mélange harmonieux de bleu et d\'or pour une montre qui allie sophistication et style.',
-    basePrice: 16500,
+    basePrice: 12000,
     images: [
       '/images/watches/montresC6.jpeg',
       '/images/watches/montresC6.jpeg',
@@ -184,7 +184,7 @@ const allProducts: Product[] = [
     id: 7,
     name: 'Casio Carrée Argentée',
     description: 'Classique et polyvalente, cette montre argentée est un accessoire essentiel pour toute garde-robe.',
-    basePrice: 13000,
+    basePrice: 12000,
     images: [
       '/images/watches/montresC7.jpeg',
       '/images/watches/montresC7.jpeg',
@@ -207,7 +207,7 @@ const allProducts: Product[] = [
     id: 8,
     name: 'Casio Carrée Bleue Argentée',
     description: 'Un cadran bleu vibrant dans un boîtier argenté, offrant un style frais et moderne.',
-    basePrice: 13500,
+    basePrice: 12000,
     images: [
       '/images/watches/montresC8.jpeg',
       '/images/watches/montresC8.jpeg',
@@ -253,7 +253,7 @@ const allProducts: Product[] = [
     id: 10,
     name: 'Casio Ronde Verte',
     description: 'Ajoutez une touche de couleur avec cette montre Casio ronde au cadran vert vif.',
-    basePrice: 12500,
+    basePrice: 12000,
     images: [
       '/images/watches/montres2.jpeg',
       '/images/watches/montres2.jpeg',
@@ -276,7 +276,7 @@ const allProducts: Product[] = [
     id: 11,
     name: 'Casio Ronde Bleu Clair',
     description: 'Un cadran bleu clair apaisant pour cette montre ronde, idéale pour un style décontracté et élégant.',
-    basePrice: 12200,
+    basePrice: 12000,
     images: [
       '/images/watches/montres3.jpeg',
       '/images/watches/montres3.jpeg',
